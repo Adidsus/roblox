@@ -19,9 +19,9 @@ game.Players.PlayerAdded:Connect(function(player)
     end)
 
     if success and savedData then
-        cash.Value = cash.Value + savedData[1]  -- Dodaj zapisane pieniądze do aktualnej wartości
+        cash.Value = cash.Value + savedData[1]
     else
-        cash.Value = cash.Value  -- Nie zmieniaj wartości, jeśli nie ma wcześniejszych zapisów
+        cash.Value = cash.Value
     end
 end)
 
