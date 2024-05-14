@@ -276,6 +276,19 @@ autoCollect:OnChanged(function(value)
         end
     end
 end)
+-- local CapPointt = game:GetService("Workspace")["Game Systems"].CapturePoint["Captured Team"].Value
+
+local Cappoint = Tabs.Farm:AddToggle("Cappoint", {Title = "Cap-Point", Default = false })
+Cappoint:OnChanged(function(value)
+    getgenv().Cappointt = value
+    while getgenv().Cappointt do task.wait()
+        if game:GetService("Workspace")["Game Systems"].CapturePoint["Captured Team"].Value ~= TycoonName then
+            warn('// Teleporting to '.. CapPoint)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["Game Systems"].CapturePoint.Flag.CubeFlag.CFrame
+        end
+        task.wait(10)
+    end
+end)
 ---------------------------FARM CONFIG TAB---------------------------------------
 local IgnoreRebirthButtons = Tabs.FarmConfig:AddToggle("IgnoreRebirthButtons", {Title = "Ignore RebirthButtons", Default = false })
 IgnoreRebirthButtons:OnChanged(function(value)
