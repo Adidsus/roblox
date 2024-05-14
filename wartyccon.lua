@@ -134,7 +134,7 @@ local function  CrateFarm()
         end
     end
 end
-CrateFarm()
+
 
 local function CaptirePoint()
     for _, tycoon in pairs(game:GetService("Workspace").Tycoon.Tycoons:GetChildren()) do
