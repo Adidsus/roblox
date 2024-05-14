@@ -98,6 +98,44 @@ local RebirthButtons = {
     "Missile Silo Start",
     "Easter Egg [10 Rebirths]",
 }
+
+
+local function  CrateFarm()
+    local easterthing = game:GetService("Workspace")["Game Systems"]["Crate Workspace"]
+
+    local function isPlayerCloseToPosition(position, distance)
+        local player = game.Players.LocalPlayer
+        if player and player.Character then
+            local playerPosition = player.Character.HumanoidRootPart.Position
+            local distanceToPosition = (position - playerPosition).magnitude
+            return distanceToPosition <= distance
+        end
+        return false
+    end
+
+    local function moveToNextCrate()
+        -- Implementacja przesunięcia gracza do następnego "crate" ...
+    end
+
+    if easterthing then
+        for i, v in ipairs(easterthing:GetChildren()) do
+            if #v:GetChildren() > 0 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                if v:FindFirstChild("StealPrompt") then
+                    -- fireproximityprompt(v.ProximityPrompt)
+                end
+                task.wait(.25)
+
+                if isPlayerCloseToPosition(v.CFrame.Position, 50) then
+                    moveToNextCrate()
+                end
+                task.wait(.25)
+            end
+        end
+    end
+end
+CrateFarm()
+
 local function CaptirePoint()
     for _, tycoon in pairs(game:GetService("Workspace").Tycoon.Tycoons:GetChildren()) do
         if tycoon:FindFirstChild("Owner") and tostring(tycoon.Owner.Value) == PlayerName then
@@ -314,6 +352,22 @@ Tabs.Farm:AddButton({
     Callback = function()
         CaptirePoint()
 
+    end
+})
+Tabs.Farm:AddButton({
+    Title = "Tp to crate",
+    Description = "can be reported by player",
+    Callback = function()
+        CrateFarm()
+
+    end
+})
+Tabs.Farm:AddButton({
+    Title = "Tp to Resarch Hangar",
+    Description = "can be reported by player",
+    Callback = function()
+        local plrhangar = game:GetService("Workspace").Tycoon.Tycoons.Charlie.PurchasedObjects["Helicopter Hull Research"].ResearchCollision.CFrame
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = plrhangar
     end
 })
 
