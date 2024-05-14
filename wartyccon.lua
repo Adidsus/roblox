@@ -98,6 +98,37 @@ local RebirthButtons = {
     "Missile Silo Start",
     "Easter Egg [10 Rebirths]",
 }
+local function CaptirePoint()
+    for _, tycoon in pairs(game:GetService("Workspace").Tycoon.Tycoons:GetChildren()) do
+        if tycoon:FindFirstChild("Owner") and tostring(tycoon.Owner.Value) == PlayerName then
+            TycoonName = tycoon.Name
+            warn('// Found player tycoon! '.. TycoonName)
+            break
+        end
+    end
+
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =  CFrame.new(-3.06392288, 75.586441, 399.406158)
+    task.wait(.5)
+
+
+    if game:GetService("Workspace")["Game Systems"].CapturePoint["Captured Team"].Value ~= TycoonName then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["Game Systems"].CapturePoint.Flag.CubeFlag.CFrame
+    end
+    while game:GetService("Workspace")["Game Systems"].CapturePoint["Captured Team"].Value == TycoonName do
+        local PlayerName = game.Players.LocalPlayer.Name-- Zmień na właściwe imię gracza
+        for _, tycoon in pairs(game:GetService("Workspace").Tycoon.Tycoons:GetChildren()) do
+            if tycoon:FindFirstChild("Owner") and tostring(tycoon.Owner.Value) == PlayerName then
+                if tycoon:FindFirstChild("Floor") then
+                    local targetCFrame = tycoon.Floor.BaseCheckMax.CFrame
+                    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetCFrame)
+                    warn('// Teleporting Plr '..tycoon.Name)
+
+                end
+                break
+            end
+        end
+    end
+end
 
 local collectorPosition = PlayerTycoon.Essentials["Oil Collector"].Collector.Display.Part.CFrame.Position
 local success, part = pcall(function()
@@ -276,19 +307,16 @@ autoCollect:OnChanged(function(value)
         end
     end
 end)
--- local CapPointt = game:GetService("Workspace")["Game Systems"].CapturePoint["Captured Team"].Value
 
-local Cappoint = Tabs.Farm:AddToggle("Cappoint", {Title = "Cap-Point", Default = false })
-Cappoint:OnChanged(function(value)
-    getgenv().Cappointt = value
-    while getgenv().Cappointt do task.wait()
-        if game:GetService("Workspace")["Game Systems"].CapturePoint["Captured Team"].Value ~= TycoonName then
-            warn('// Teleporting to '.. CapPoint)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["Game Systems"].CapturePoint.Flag.CubeFlag.CFrame
-        end
-        task.wait(10)
+Tabs.Farm:AddButton({
+    Title = "Cap-Point",
+    Description = "can be reported by player",
+    Callback = function()
+        CaptirePoint()
+
     end
-end)
+})
+
 ---------------------------FARM CONFIG TAB---------------------------------------
 local IgnoreRebirthButtons = Tabs.FarmConfig:AddToggle("IgnoreRebirthButtons", {Title = "Ignore RebirthButtons", Default = false })
 IgnoreRebirthButtons:OnChanged(function(value)
